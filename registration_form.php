@@ -35,10 +35,19 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script  type="text/JavaScript">
 
         $(document).ready(function () {
             console.log("ready");
+            $('*[data-poload]').click(function() {
+                var e=$(this);
+                e.off('click');
+                $.get(e.data('poload'),function(d) {
+                    e.popover({content: d,html: true,'trigger':'click'}).popover('show');
+                });
+            });
+
             $("#form-status").change(function() {
                 if($(this).val()=="Lainnya"){
                     $("#form-status-others").show();
@@ -47,21 +56,58 @@
                 }
             });
             $('#submit-button').click(function() {
-                var errorFound = false;
+                var mandatoryErrorFound = false;
+                var emailErrorFound = false;
+                var errorMessage = "";
+
                 $('.form-mandatory').each(function(){
                     event.preventDefault();
                     if($(this).val().trim()==""){
                         $(this).css('background-color', '#AA3939');
-                        errorFound = true;
-                        $("#message-error").show();
+                        mandatoryErrorFound  = true;
                     }else{
                         $(this).css('background-color', 'white');
                     }
                 });
-                if(!errorFound) $("#main-form").submit();
+
+                if(mandatoryErrorFound){
+                    errorMessage = "- Kolom yang ditandai wajib diisi.";
+                }
+
+                var birthdateValue = $('#datetimepicker').val();
+                var date = birthdateValue.split("/");
+                var d = parseInt(date[0], 10),
+                    m = parseInt(date[1], 10),
+                    y = parseInt(date[2], 10);
+                var birthdate = new Date(y, m - 1, d);
+                console.log(birthdate);
+                if(birthdate>Date.now()){
+                    mandatoryErrorFound = true;
+                    $("#datetimepicker").css('background-color', '#AA3939');
+                    errorMessage += "- Tanggal lahir salah.";
+                }
+
+                if($('#email').val() != $('#email-confirm').val()){
+                    emailErrorFound = true;
+                    errorMessage += "- Email dan konfirmasi harus sama. ";
+                    $('#email').css('background-color', '#AA3939');
+                    $('#email-confirm').css('background-color', '#AA3939');
+                }
+
+                if( !mandatoryErrorFound && !emailErrorFound){
+                    $("#main-form").submit();
+                }else{
+                    $("#message-error-text").text(errorMessage);
+                    $("#message-error").show();
+                }
             });
         });
     </script>
+    <style>
+        .popover{
+            max-width: 100%; /* Max Width of the popover (depending on the container!) */
+        }
+    </style>
 </head>
 
 <body id="page-top" style="font-size: 16px">
@@ -170,7 +216,13 @@
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">Email*</label>
                         <div class="col-sm-10">
-                            <input name="email" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Email">
+                            <input id="email" name="email" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Konfirmasi Email*</label>
+                        <div class="col-sm-10">
+                            <input id="email-confirm" name="email-confirm" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Email">
                         </div>
                     </div>
                     <div class="form-group">
@@ -247,9 +299,18 @@
                 </div>
 
                <div id="message-error" class="col-lg-8 col-lg-offset-2 text-center" style="background-color: lightgrey;padding:5px;display: none;">
-                    <p><h2 class="section-heading">Kolom yang ditandai wajib diisi.</h2></p>
+                    <p><h2 class="section-heading" id="message-error-text"></h2></p>
                </div>
+                <div class="form-group" style="margin-bottom: 70px;">
+                    <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <input id="toc" type="checkbox"> Saya telah baca dan setujui Datenschutzerklärung <a title="Datenschutzerklärung" data-poload="toc.html"> ini</a>
+                    </div>
+                </div>
 
+                <div id="message-error" class="col-lg-8 col-lg-offset-2 text-center">
+                    <div class="g-recaptcha" data-sitekey="6LdPwxETAAAAAEHxB2lqmUhpwRw-samLV-PEGG1n"></div>
+                </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10"  style="margin-top: 20px;">
     <!--                    <button id="personal-button" type="submit" class="btn btn-default btn-xl">Lanjut</button>-->

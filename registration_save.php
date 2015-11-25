@@ -112,58 +112,62 @@
             <div class="text-center-column-left text-align-left" >
 
                 <?php
+                //echo "<pre>";
+                //print_r($_POST);
+                //echo "</pre>";
+                if(empty($_POST["g-recaptcha-response"])){
+                    echo "<h2>Anda tidak memvalidasi reCAPTCHA. Klik di <a  onclick='window.history.back();' >sini</a> untuk kembali.</h2>";
+                    die();
+                }
+                include "db.php";
+                $insertId = 0;
+                $name = "";
+                $price = 150;
+                if(isset($_POST["name"])){
 
-$insertId = 0;
-$name = "";
-$price = 150;
-if(isset($_POST["name"])){
-//    $db = new PDO('mysql:host=localhost;dbname=imanuel;charset=utf8', 'root', '');
-    $db = new PDO('mysql:host=immanuel-berlin.de.mysql;dbname=immanuel_berlin;charset=utf8', 'immanuel_berlin', 'Aq3JqkQg');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $stmt = $db->prepare("INSERT INTO registration(`name`,`birthday`,`address`,`city`,`postcode`,`telephone`,`email`,`curch_city`,
+                                                                `status`,`status_others`,`attended`,`emergency_contact`,`emergency_address`,`allergic`,
+                                                                 `translator`,`notes`
+                                                               ) VALUES(:name,:birthday,:address,:city,:postcode,:telephone,:email,:curch_city,
+                                                                 :status,:status_others,:attended,:emergency_contact,:emergency_address,:allergic,
+                                                                 :translator,:notes)");
+                    $birthDay =date('Y-m-d H:i:s',strtotime(str_replace("/","-",$_POST['birthday'])));
+                    $stmt->execute(array(
+                        ':name' => $_POST['name'],
+                        ':birthday' =>$birthDay ,
+                        ':address' => $_POST['address'],
+                        ':city' => $_POST['city'],
+                        ':postcode' => $_POST['postcode'],
+                        ':telephone' => $_POST['telephone'],
+                        ':email' => $_POST['email'],
+                        ':curch_city' => $_POST['curch_city'],
+                        ':status' => $_POST['status'],
+                        ':status_others' => $_POST['status_others'],
+                        ':attended' => isset($_POST['attended'])?$_POST['attended']:0,
+                        ':emergency_contact' => $_POST['emergency_contact'],
+                        ':emergency_address' => $_POST['emergency_address'],
+                        ':allergic' => $_POST['allergic'],
+                        ':translator' => isset($_POST['translator'])?$_POST['translator']:0,
+                        ':notes' => $_POST['notes']
+                    ));
 
-    $stmt = $db->prepare("INSERT INTO registration(`name`,`birthday`,`address`,`city`,`postcode`,`telephone`,`email`,`curch_city`,
-                                                `status`,`status_others`,`attended`,`emergency_contact`,`emergency_address`,`allergic`,
-                                                 `translator`,`notes`
-                                               ) VALUES(:name,:birthday,:address,:city,:postcode,:telephone,:email,:curch_city,
-                                                 :status,:status_others,:attended,:emergency_contact,:emergency_address,:allergic,
-                                                 :translator,:notes)");
-    $birthDay =date('Y-m-d H:i:s',strtotime(str_replace("/","-",$_POST['birthday'])));
-    $stmt->execute(array(
-        ':name' => $_POST['name'],
-        ':birthday' =>$birthDay ,
-        ':address' => $_POST['address'],
-        ':city' => $_POST['city'],
-        ':postcode' => $_POST['postcode'],
-        ':telephone' => $_POST['telephone'],
-        ':email' => $_POST['email'],
-        ':curch_city' => $_POST['curch_city'],
-        ':status' => $_POST['status'],
-        ':status_others' => $_POST['status_others'],
-        ':attended' => isset($_POST['attended'])?$_POST['attended']:0,
-        ':emergency_contact' => $_POST['emergency_contact'],
-        ':emergency_address' => $_POST['emergency_address'],
-        ':allergic' => $_POST['allergic'],
-        ':translator' => isset($_POST['translator'])?$_POST['translator']:0,
-        ':notes' => $_POST['notes']
-    ));
+                    $insertId = $db->lastInsertId();
+                //echo "ID:" . $insertId;
+                    $name = $_POST["name"];
+                    $now = new DateTime('NOW');
+                    $ageDiff = $now->diff(new DateTime(date('Y-m-d',strtotime(str_replace("/","-",$_POST['birthday'])))));
+                    $price = 150;
+                    $age = $ageDiff->y;
+                    if($age<=3){
+                        $price = 0;
+                    }elseif($age>3 and $age<=6){
+                        $price = 70;
+                    }
 
-    $insertId = $db->lastInsertId();
-//echo "ID:" . $insertId;
-    $name = $_POST["name"];
-    $now = new DateTime('NOW');
-    $ageDiff = $now->diff(new DateTime(date('Y-m-d',strtotime(str_replace("/","-",$_POST['birthday'])))));
-    $price = 150;
-    $age = $ageDiff->y;
-    if($age<=3){
-        $price = 0;
-    }elseif($age>3 and $age<=6){
-        $price = 70;
-    }
-
-//    echo "AGE:".$age->y;
-}else{
-    echo "<h2>Invalid use of form. Please proceed from <a href='registration.php'>registration form</a>.</h2>";
-}
+                //    echo "AGE:".$age->y;
+                }else{
+                    echo "<h2>Invalid use of form. Please proceed from <a href='registration.php'>registration form</a>.</h2>";
+                }
                 ?>
                <div>Terima kasih, <?=$name?>. Data Anda sudah disimpan</div>
                 <?php
