@@ -124,7 +124,7 @@ aside {
     background-color: transparent;
 }
 
-@media(min-width:768px) {
+@media(min-width:960px) {
     .navbar-default {
         border-color: rgba(255,255,255,.3);
         background-color: transparent;
@@ -605,4 +605,8 @@ span.main-title {
     position: absolute;
     top: 14px;
     left: 59px;
+}
+video {
+    width: 100%;
+    max-height: 100%;
 }

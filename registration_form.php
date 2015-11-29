@@ -94,6 +94,10 @@
                     $('#email-confirm').css('background-color', '#AA3939');
                 }
 
+                if(!$("#toc").is(':checked')){
+                    errorMessage += " Anda harus menyetujui Datenschutzerklärung.";
+                    mandatoryErrorFound = true;
+                }
                 if( !mandatoryErrorFound && !emailErrorFound){
                     $("#main-form").submit();
                 }else{
@@ -366,7 +370,7 @@
 <script>
     jQuery('#datetimepicker').datetimepicker({
         timepicker:false,
-        format:'d/m/Y',
+        format:'d-m-Y',
         minDate:'1900/01/01',
         maxDate:'-1970/01/02'//yesterday is maximum date calendar
     });
