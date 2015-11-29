@@ -35,10 +35,19 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script  type="text/JavaScript">
 
         $(document).ready(function () {
             console.log("ready");
+            $('*[data-poload]').click(function() {
+                var e=$(this);
+                e.off('click');
+                $.get(e.data('poload'),function(d) {
+                    e.popover({content: d,html: true,'trigger':'click'}).popover('show');
+                });
+            });
+
             $("#form-status").change(function() {
                 if($(this).val()=="Lainnya"){
                     $("#form-status-others").show();
@@ -47,21 +56,58 @@
                 }
             });
             $('#submit-button').click(function() {
-                var errorFound = false;
+                var mandatoryErrorFound = false;
+                var emailErrorFound = false;
+                var errorMessage = "";
+
                 $('.form-mandatory').each(function(){
                     event.preventDefault();
                     if($(this).val().trim()==""){
                         $(this).css('background-color', '#AA3939');
-                        errorFound = true;
-                        $("#message-error").show();
+                        mandatoryErrorFound  = true;
                     }else{
                         $(this).css('background-color', 'white');
                     }
                 });
-                if(!errorFound) $("#main-form").submit();
+
+                if(mandatoryErrorFound){
+                    errorMessage = " Kolom yang ditandai wajib diisi.";
+                }
+
+                var birthdateValue = $('#datetimepicker').val();
+                var date = birthdateValue.split("/");
+                var d = parseInt(date[0], 10),
+                    m = parseInt(date[1], 10),
+                    y = parseInt(date[2], 10);
+                var birthdate = new Date(y, m - 1, d);
+                console.log(birthdate);
+                if(birthdate>Date.now()){
+                    mandatoryErrorFound = true;
+                    $("#datetimepicker").css('background-color', '#AA3939');
+                    errorMessage += " Tanggal lahir salah.";
+                }
+
+                if($('#email').val() != $('#email-confirm').val()){
+                    emailErrorFound = true;
+                    errorMessage += " Email dan konfirmasi harus sama. ";
+                    $('#email').css('background-color', '#AA3939');
+                    $('#email-confirm').css('background-color', '#AA3939');
+                }
+
+                if( !mandatoryErrorFound && !emailErrorFound){
+                    $("#main-form").submit();
+                }else{
+                    $("#message-error-text").text(errorMessage);
+                    $("#message-error").show();
+                }
             });
         });
     </script>
+    <style>
+        .popover{
+            max-width: 100%; /* Max Width of the popover (depending on the container!) */
+        }
+    </style>
 </head>
 
 <body id="page-top" style="font-size: 16px">
@@ -131,56 +177,62 @@
 
                 <div  class="form-horizontal">
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Nama*</label>
+                        <label class="col-sm-2 control-label">Nama*</label>
                         <div class="col-sm-10">
                             <input name="name" data-mandatory="1" type="text" class="form-control form-mandatory form-mandatory" placeholder="Nama lengkap">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Tanggal lahir*</label>
+                        <label class="col-sm-2 control-label">Tanggal lahir*</label>
                         <div class="col-sm-10">
     <!--                        <input type="text" class="form-control" placeholder="dd-mm-yyyy">-->
                             <input name="birthday" data-mandatory="1" id="datetimepicker" type="text"  class="form-control form-mandatory" placeholder="dd-mm-yyyy">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Alamat*</label>
+                        <label class="col-sm-2 control-label">Alamat*</label>
                         <div class="col-sm-10">
                             <input name="address" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Alamat">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Kota*</label>
+                        <label class="col-sm-2 control-label">Kota*</label>
                         <div class="col-sm-10">
                             <input name="city" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Kota">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Kode Pos*</label>
+                        <label class="col-sm-2 control-label">Kode Pos*</label>
                         <div class="col-sm-10">
                             <input name="postcode" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Kode Pos">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Telepon*</label>
+                        <label class="col-sm-2 control-label">Telepon*</label>
                         <div class="col-sm-10">
                             <input name="telephone" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Telepon">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Email*</label>
+                        <label class="col-sm-2 control-label">Email*</label>
                         <div class="col-sm-10">
-                            <input name="email" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Email">
+                            <input id="email" name="email" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Email">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Kota Persekutuan*</label>
+                        <label class="col-sm-2 control-label">Konfirmasi Email*</label>
+                        <div class="col-sm-10">
+                            <input id="email-confirm" name="email-confirm" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Kota Persekutuan*</label>
                         <div class="col-sm-10">
                             <input name="curch_city" data-mandatory="1" type="text" class="form-control form-mandatory" placeholder="Kota Persekutuan">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
+                        <label class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-10">
                             <select name="status" class="form-control" id="form-status">
                                 <option>pilih salah satu</option>
@@ -194,62 +246,72 @@
                         </div>
                     </div>
                     <div class="form-group" id="form-status-others" data-visible="0" style="display:none;">
-                        <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                        <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <input name="status_others" type="text" class="form-control" placeholder="masukkan status lainnya">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Pernah ikut BCP</label>
+                        <label class="col-sm-2 control-label">Pernah ikut BCP</label>
                         <div class="col-sm-10">
-                            <input name="attended" value="1" type="radio"> Ya
-                            <input name="attended"  type="radio"  value="2"> Tidak
+                            <input name="attended" value="1" type="radio" id="attended-yes"> <label for="attended-yes">  Ya</label>
+                            <input name="attended"  type="radio"  value="2"  id="attended-no"> <label for="attended-no"> Tidak</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Kontak Emergency</label>
+                        <label class="col-sm-2 control-label">Kontak Emergency</label>
                         <div class="col-sm-10">
                             <input name="emergency_contact" type="text" class="form-control" placeholder="Nama">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                        <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <input name="emergency_address" type="text" class="form-control" placeholder="Alamat">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                        <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" placeholder="Telepon">
                         </div>
                     </div>
                     <hr class="primary" style="max-width: 200px;">
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Alergi makanan</label>
+                        <label class="col-sm-2 control-label">Alergi makanan</label>
                         <div class="col-sm-10">
                             <input name="allergic" type="text" class="form-control" placeholder="alergi makanan">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Perlu penterjemah bahasa jerman</label>
+                        <label class="col-sm-2 control-label">Perlu penterjemah bahasa jerman</label>
                         <div class="col-sm-10">
-                            <input name="translator" value="1" type="radio"> Ya
-                            <input name="translator" value="0" type="radio"> Tidak
+                            <input name="translator" value="1" type="radio" id="translator-yes"> <label for="translator-yes"> Ya</label>
+                            <input name="translator" value="0" type="radio" id="translator-no"> <label for="translator-no"> Tidak</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Lainnya</label>
+                        <label class="col-sm-2 control-label">Lainnya</label>
                         <div class="col-sm-10">
                             <input name="notes" type="text" class="form-control" placeholder="contoh: tidur harus dengan lampu menyala">
                         </div>
                     </div>
+                    <div class="form-group" style="margin-bottom: 70px;">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input id="toc" type="checkbox"> <label for="toc"> Saya telah baca dan setujui Datenschutzerklärung</label> <a title="Datenschutzerklärung" data-poload="toc.html"> ini</a>
+                        </div>
+                    </div>
                 </div>
 
-               <div id="message-error" class="col-lg-8 col-lg-offset-2 text-center" style="background-color: lightgrey;padding:5px;display: none;">
-                    <p><h2 class="section-heading">Kolom yang ditandai wajib diisi.</h2></p>
+               <div id="message-error" class="col-lg-8 col-lg-offset-2 text-center" style="background-color: lightgrey;padding:5px;display: none;margin-bottom: 20px">
+                    <p><h2 class="section-heading" id="message-error-text" style="font-size: 20px"></h2></p>
                </div>
 
+
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                <div class="g-recaptcha" data-sitekey="6LdPwxETAAAAAEHxB2lqmUhpwRw-samLV-PEGG1n"></div>
+                </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10"  style="margin-top: 20px;">
     <!--                    <button id="personal-button" type="submit" class="btn btn-default btn-xl">Lanjut</button>-->
@@ -304,7 +366,9 @@
 <script>
     jQuery('#datetimepicker').datetimepicker({
         timepicker:false,
-        format:'d/m/Y'
+        format:'d/m/Y',
+        minDate:'1900/01/01',
+        maxDate:'-1970/01/02'//yesterday is maximum date calendar
     });
 </script>
 </html>
