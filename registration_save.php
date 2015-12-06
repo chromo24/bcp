@@ -168,11 +168,11 @@
                 }else{
                     echo "<h2>Invalid use of form. Please proceed from <a href='registration.php'>registration form</a>.</h2>";
                 }
-                ?>
-               <div>Terima kasih, <?=$name?>. Data Anda sudah disimpan</div>
-                <?php
+
+                $msg1 = "<div>Terima kasih, ".$name.". Data Anda sudah disimpan</div>";
+                $msg2 = "";
                 if($price>0){
-                    echo '<div>Selanjutnya silahkan mentransfer uang pendaftaran sebesar '.$price.'€ ke:</div>
+                    $msg2 = '<div>Selanjutnya silahkan mentransfer uang pendaftaran sebesar '.$price.'€ ke:</div>
                             <div>
                                 <table class="table-responsive" style="padding: 5px;margin: 10px;">
                                     <tr><td>Kontoinhaber: </td><td> Christl. Gemeinde Immanuel</td></tr>
@@ -185,19 +185,28 @@
                                 </table>
                             </div>';
                 }
-                ?>
-                <div>
-                        Nomer pendaftaran Anda adalah: BCP<?php echo $insertId + 100; ?>.
+                $msg3 = "<div>
+                        Nomer pendaftaran Anda adalah: BCP".($insertId + 100).".
                         Gunakan selalu nomer tersebut dalam komunikasi dengan kami.
                         Jangan lupa mencantumkan nomer tersebut sebagai Verwendungszweck ketika mentransfer
-                        untuk mempermudah proses administrasi.
+                        untuk mempermudah proses administrasi.</div>
+                        <div>Apabila dana sudah diterima, Anda akan mendapatkan email konfirmasi yang menyatakan bahwa Anda terdaftar.</div>";
 
-                </div>
-                <div>
+                echo $msg1.$msg2.$msg3;
+                sendConfirmationMail($_POST["email"],$msg1.$msg2.$msg3);
 
-                        Apabila dana sudah diterima, Anda akan mendapatkan email konfirmasi yang menyatakan bahwa Anda terdaftar.
+                function sendConfirmationMail($address,$content){
+                    $subject = 'Konfirmasi Pendaftaran BCP2016';
 
-                </div>
+                    $header  = 'MIME-Version: 1.0' . "\r\n";
+                    $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                    $header .= 'From: pendaftaran.bcp@googlemail.com' . "\r\n" .
+                        'Reply-To: pendaftaran.bcp@googlemail.com' . "\r\n" .
+                        'X-Mailer: PHP/' . phpversion();
+                    mail($address, $subject, $content, $header);
+                }
+
+?>
             </div>
         </div>
     </div>
