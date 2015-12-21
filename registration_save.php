@@ -198,7 +198,7 @@
                 function sendConfirmationMail($address,$content){
                     $subject = 'Konfirmasi Pendaftaran BCP2016';
 
-                    $header  = 'MIME-Version: 1.0' . "\r\n";$content
+                    $header  = 'MIME-Version: 1.0' . "\r\n";
                     $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
                     $header .= 'From: pendaftaran.bcp@googlemail.com' . "\r\n" .
                         'Reply-To: pendaftaran.bcp@googlemail.com' . "\r\n" .
