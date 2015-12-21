@@ -172,7 +172,7 @@
                 $msg1 = "<div>Terima kasih, ".$name.". Data Anda sudah disimpan</div>";
                 $msg2 = "";
                 if($price>0){
-                    $msg2 = '<div>Selanjutnya silahkan mentransfer uang pendaftaran sebesar '.$price.'EUR ke:</div>
+                    $msg2 = '<div>Selanjutnya silahkan mentransfer uang pendaftaran sebesar '.$price.' EUR ke:</div>
                             <div>
                                 <table class="table-responsive" style="padding: 5px;margin: 10px;">
                                     <tr><td>Kontoinhaber: </td><td> Christl. Gemeinde Immanuel</td></tr>
