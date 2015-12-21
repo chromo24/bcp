@@ -141,7 +141,7 @@
                                     <tr><td>IBAN: </td><td> DE 58 4526 0475 0011 5203 02</td></tr>
                                     <tr><td>BIC: </td><td> GENODEM1BFG</td></tr>
                                 </table>
-                            </div>';
+                        </div>
                     </li>
                     <li>Setiap peserta yang mengundurkan diri akan dikenakan biaya pembatalan sesuai dengan peraturan yang berlaku di Jugendherberge.</li>
                     <li>Kami memerlukan kontak ( nama/alamat/telepon) orang yang dapat dihubungi di Jerman atau di Indonesia untuk berjaga-jaga jika terjadi sesuatu di luar dugaan.</li>
