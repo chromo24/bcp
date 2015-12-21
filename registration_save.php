@@ -172,7 +172,7 @@
                 $msg1 = "<div>Terima kasih, ".$name.". Data Anda sudah disimpan</div>";
                 $msg2 = "";
                 if($price>0){
-                    $msg2 = '<div>Selanjutnya silahkan mentransfer uang pendaftaran sebesar '.$price.'€ ke:</div>
+                    $msg2 = '<div>Selanjutnya silahkan mentransfer uang pendaftaran sebesar '.$price.'EUR ke:</div>
                             <div>
                                 <table class="table-responsive" style="padding: 5px;margin: 10px;">
                                     <tr><td>Kontoinhaber: </td><td> Christl. Gemeinde Immanuel</td></tr>
@@ -198,7 +198,7 @@
                 function sendConfirmationMail($address,$content){
                     $subject = 'Konfirmasi Pendaftaran BCP2016';
 
-                    $header  = 'MIME-Version: 1.0' . "\r\n";
+                    $header  = 'MIME-Version: 1.0' . "\r\n";$content
                     $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
                     $header .= 'From: pendaftaran.bcp@googlemail.com' . "\r\n" .
                         'Reply-To: pendaftaran.bcp@googlemail.com' . "\r\n" .
