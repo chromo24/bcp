@@ -132,6 +132,16 @@
                         Peserta dapat menentukan sendiri alat transportasi ke tempat tujuan. Tetapi sangat dihimbau dan diharapkan agar para peserta sampai di tempat sesuai dengan hari dan jam yang telah ditentukan.
                         Untuk peserta dari Berlin disediakan bus oleh panitia yang berkapasitas kira-kira 55-60 orang dan mempunyai WC.
                         Biaya per orang dikenakan 55€.
+                        <div>Biaya pendaftaran (plus biaya transportasi) atau donasi silahkan mentransfer ke:
+                                <table class="table-responsive" style="padding: 5px;margin: 10px;">
+                                    <tr><td>Kontoinhaber: </td><td> Christl. Gemeinde Immanuel</td></tr>
+                                    <tr><td>Bank: </td><td> SKB Witten</td></tr>
+                                    <tr><td>Kontonummer: </td><td> 115220302</td></tr>
+                                    <tr><td>BLZ: </td><td> 45260475</td></tr>
+                                    <tr><td>IBAN: </td><td> DE 58 4526 0475 0011 5203 02</td></tr>
+                                    <tr><td>BIC: </td><td> GENODEM1BFG</td></tr>
+                                </table>
+                            </div>';
                     </li>
                     <li>Setiap peserta yang mengundurkan diri akan dikenakan biaya pembatalan sesuai dengan peraturan yang berlaku di Jugendherberge.</li>
                     <li>Kami memerlukan kontak ( nama/alamat/telepon) orang yang dapat dihubungi di Jerman atau di Indonesia untuk berjaga-jaga jika terjadi sesuatu di luar dugaan.</li>
