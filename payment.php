@@ -56,7 +56,7 @@ Wir freuen uns schon, Dich dort zu treffen.
 </p><p>
 Viele Grüße,
 </p><p>
-Das Veranstaltungsteam</p>';
+Das Veranstaltungsteam von Bible Camp Pemuridan 2016</p>';
     $header  = 'MIME-Version: 1.0' . "\r\n";
     $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
     $header .= 'From: pendaftaran.bcp@googlemail.com' . "\r\n" .

@@ -188,9 +188,9 @@
                 $msg3 = "<div>
                         Nomer pendaftaran Anda adalah: BCP".($insertId + 100).".
                         Gunakan selalu nomer tersebut dalam komunikasi dengan kami.
-                        Jangan lupa mencantumkan nomer tersebut sebagai Verwendungszweck ketika mentransfer
+                        Jangan lupa mencantumkan nomor tersebut sebagai Verwendungszweck ketika mentransfer
                         untuk mempermudah proses administrasi.</div>
-                        <div>Apabila dana sudah diterima, Anda akan mendapatkan email konfirmasi yang menyatakan bahwa Anda terdaftar.</div>";
+                            <div>Apabila dana sudah diterima, Anda akan mendapatkan email konfirmasi yang menyatakan bahwa Anda terdaftar.</div>";
 
                 echo $msg1.$msg2.$msg3;
                 sendConfirmationMail($_POST["email"],$msg1.$msg2.$msg3);
