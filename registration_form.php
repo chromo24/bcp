@@ -288,6 +288,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-2 control-label">Transport ke lokasi</label>
+                        <div class="col-sm-10">
+                            <select name="transportation" class="form-control" id="form-transportation">
+                                <option>pilih salah satu</option>
+                                <option value="Berlin Bus">Yang disediakan panitia (hanya untuk Berliner!)</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">Perlu penterjemah bahasa jerman</label>
                         <div class="col-sm-10">
                             <input name="translator" value="1" type="radio" id="translator-yes"> <label for="translator-yes"> Ya</label>

@@ -60,6 +60,16 @@
                     return false;
                 }
             });
+            $(".delete-registration").click(function() {
+                var id = $(this).data("id");
+                var r = confirm("Yakin ingin menghapus data ini?");
+                if (r == true) {
+                    $(this).load("delete.php?id="+id);
+                    $('#tr-'+id).hide();
+                } else {
+                    return false;
+                }
+            });
             $(document).on("click",".view-detail-close",function(){
                 $("#view-detail-area").hide();
             });
@@ -125,7 +135,7 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
-<div id="view-detail-area" style="display: none; position: fixed;width: 500px; background: white;margin: 5% auto;left: 0;right: 0;height: 667px;z-index: 200;">
+<div id="view-detail-area" style="display: none; position: fixed;width: 500px; background: white;margin: 5% auto;left: 0;right: 0;height: 704px;z-index: 200;">
 
 </div>
 <?php
@@ -133,7 +143,7 @@ include "db.php";
 $error = "";
 if(isset($_POST["id"]) and isset($_POST["password"])){
     if($_POST["id"] == $adminId and $_POST["password"] == $adminPassword){
-        $query = "SELECT id,name,email,city,payment_received FROM registration;";
+        $query = "SELECT id,name,email,city,payment_received FROM registration WHERE deleted = 0;";
         $rows = $db->prepare($query);
         $rows->execute();
         echo '<section class="bg-primary" id="about">
@@ -152,9 +162,9 @@ if(isset($_POST["id"]) and isset($_POST["password"])){
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <table style="text-align: left;" class="table table-striped">
-                            <tr><th>Id</th><th>Nama</th><th>Kota</th><th>Pembayaran</th><th></th></tr>';
+                            <tr><th>Id</th><th>Nama</th><th>Kota</th><th>Pembayaran</th><th></th><th></th></tr>';
         while($row = $rows->fetch()){
-            echo '<tr>';
+            echo '<tr id="tr-'.$row["id"].'">';
             echo '<td><span class="view-detail-data" data-id="'.$row["id"].'" style="cursor:pointer;">'.($row["id"]+100).'</span></td>';
             echo '<td><span class="view-detail-data" data-id="'.$row["id"].'" style="cursor:pointer;">'.$row["name"].'</span></td>';
             echo '<td><span class="view-detail-data" data-id="'.$row["id"].'" style="cursor:pointer;">'.$row["city"].'</span></td>';
@@ -165,7 +175,9 @@ if(isset($_POST["id"]) and isset($_POST["password"])){
             }else{
                 echo "telah dibayar";
             }
-            echo '</td></tr>';
+            echo '</td>';
+            echo '<td><button class="delete-registration" id="delete-registration-'.$row["id"].'" data-id="'.$row["id"].'" title="hapus data">X</button></td>';
+            echo '</tr>';
         }
         echo '</table></div></div></div>';
         die();

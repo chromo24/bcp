@@ -29,7 +29,8 @@ $query = "SELECT `registration`.`id`,
                 `registration`.`translator`,
                 `registration`.`notes`,
                 `registration`.`timestamp`,
-                `registration`.`payment_received`
+                `registration`.`payment_received`,
+                `registration`.`transportation`
             FROM `registration`
             WHERE id = ?;";
 
@@ -54,6 +55,7 @@ if ($stmt->execute(array($id))) {
         echo '<tr><td>Kontak Emergensi</td><td>'.$row['emergency_contact'].'</td></tr>';
         echo '<tr><td>Alamat Emergensi</td><td>'.$row['emergency_address'].'</td></tr>';
         echo '<tr><td>Alergi</td><td>'.$row['allergic'].'</td></tr>';
+        echo '<tr><td>Transportasi</td><td>'.$row['transportation'].'</td></tr>';
         echo '<tr><td>Penterjemah</td><td>'.($row['translator']==1?"Ya":"Tidak").'</td></tr>';
         echo '<tr><td>Catatan</td><td>'.$row['notes'].'</td></tr>';
         echo '<tr><td>Daftar pada</td><td>'.$row['timestamp'].'</td></tr>';

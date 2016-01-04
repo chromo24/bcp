@@ -127,10 +127,10 @@
 
                     $stmt = $db->prepare("INSERT INTO registration(`name`,`birthday`,`address`,`city`,`postcode`,`telephone`,`email`,`curch_city`,
                                                                 `status`,`status_others`,`attended`,`emergency_contact`,`emergency_address`,`allergic`,
-                                                                 `translator`,`notes`
+                                                                 `translator`,`notes`,`transportation`
                                                                ) VALUES(:name,:birthday,:address,:city,:postcode,:telephone,:email,:curch_city,
                                                                  :status,:status_others,:attended,:emergency_contact,:emergency_address,:allergic,
-                                                                 :translator,:notes)");
+                                                                 :translator,:notes,:transportation)");
                     $birthDay =date('Y-m-d H:i:s',strtotime(str_replace("/","-",$_POST['birthday'])));
                     $stmt->execute(array(
                         ':name' => $_POST['name'],
@@ -148,7 +148,8 @@
                         ':emergency_address' => $_POST['emergency_address'],
                         ':allergic' => $_POST['allergic'],
                         ':translator' => isset($_POST['translator'])?$_POST['translator']:0,
-                        ':notes' => $_POST['notes']
+                        ':notes' => $_POST['notes'],
+                        ':transportation' => $_POST['transportation']
                     ));
 
                     $insertId = $db->lastInsertId();
@@ -162,6 +163,10 @@
                         $price = 0;
                     }elseif($age>3 and $age<=6){
                         $price = 70;
+                    }
+                    $transport =  isset($_POST["transportation"])?$_POST["transportation"]:"";
+                    if($transport ==  "Berlin Bus"){
+                        $price += 55;
                     }
 
                 //    echo "AGE:".$age->y;
