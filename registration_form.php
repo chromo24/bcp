@@ -62,7 +62,9 @@
 
                 $('.form-mandatory').each(function(){
                     event.preventDefault();
-                    if($(this).val().trim()==""){
+                    console.log($(this).id);
+                    console.log($(this).val());
+                    if($(this).val().trim()=="" || $(this).val().trim()=="pilih salah satu" ){
                         $(this).css('background-color', '#AA3939');
                         mandatoryErrorFound  = true;
                     }else{
@@ -288,9 +290,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Transport ke lokasi</label>
+                        <label class="col-sm-2 control-label">Transport ke lokasi*</label>
                         <div class="col-sm-10">
-                            <select name="transportation" class="form-control" id="form-transportation">
+                            <select name="transportation" class="form-control form-mandatory" id="form-transportation">
                                 <option>pilih salah satu</option>
                                 <option value="Berlin Bus">Yang disediakan panitia (hanya untuk Berliner!)</option>
                                 <option value="Lainnya">Lainnya</option>

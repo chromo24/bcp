@@ -155,7 +155,8 @@
                     $insertId = $db->lastInsertId();
                 //echo "ID:" . $insertId;
                     $name = $_POST["name"];
-                    $now = new DateTime('NOW');
+                    $now = new DateTime('2016-03-24');
+                    //$now = new DateTime('NOW');
                     $ageDiff = $now->diff(new DateTime(date('Y-m-d',strtotime(str_replace("/","-",$_POST['birthday'])))));
                     $price = 150;
                     $age = $ageDiff->y;
