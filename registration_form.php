@@ -55,13 +55,13 @@
                     $("#form-status-others").hide();
                 }
             });
-            $('#submit-button').click(function() {
+            $('#submit-button').click(function(e) {
+                e.preventDefault();
                 var mandatoryErrorFound = false;
                 var emailErrorFound = false;
                 var errorMessage = "";
 
                 $('.form-mandatory').each(function(){
-                    event.preventDefault();
                     console.log($(this).id);
                     console.log($(this).val());
                     if($(this).val().trim()=="" || $(this).val().trim()=="pilih salah satu" ){
@@ -331,7 +331,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10"  style="margin-top: 20px;">
     <!--                    <button id="personal-button" type="submit" class="btn btn-default btn-xl">Lanjut</button>-->
-                        <a href="#" id="submit-button" class="btn btn-primary btn-xl">LANJUT KE PEMBAYARAN</a>
+                        <a id="submit-button" class="btn btn-primary btn-xl">LANJUT KE PEMBAYARAN</a>
                     </div>
                 </div>
             </div>
