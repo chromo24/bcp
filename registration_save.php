@@ -183,7 +183,7 @@
                                 <table class="table-responsive" style="padding: 5px;margin: 10px;">
                                     <tr><td>Kontoinhaber: </td><td> Christl. Gemeinde Immanuel</td></tr>
                                     <tr><td>Bank: </td><td> SKB Witten</td></tr>
-                                    <tr><td>Kontonummer: </td><td> 115220302</td></tr>
+                                    <tr><td>Kontonummer: </td><td> 11520302</td></tr>
                                     <tr><td>BLZ: </td><td> 45260475</td></tr>
                                     <tr><td>IBAN: </td><td> DE 58 4526 0475 0011 5203 02</td></tr>
                                     <tr><td>BIC: </td><td> GENODEM1BFG</td></tr>
