@@ -70,6 +70,10 @@
                     return false;
                 }
             });
+            $("#download-to-excel").click(function(e) {
+                e.preventDefault();
+                window.open("download.php", '_blank');
+            });
             $(document).on("click",".view-detail-close",function(){
                 $("#view-detail-area").hide();
             });
@@ -179,7 +183,7 @@ if(isset($_POST["id"]) and isset($_POST["password"])){
             echo '<td><button class="delete-registration" id="delete-registration-'.$row["id"].'" data-id="'.$row["id"].'" title="hapus data">X</button></td>';
             echo '</tr>';
         }
-        echo '</table></div></div></div>';
+        echo '</table><button id="download-to-excel" class="download-button">Download ke Excel</button></div></div></div>';
         die();
     }else{
         $error = 'User atau password salah.';
