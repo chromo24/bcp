@@ -155,7 +155,7 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <div class="header-content-title-global" style="margin-top: 50px;">
-                <!--<a href="registration_form.php" class="btn btn-primary btn-xl page-scroll">LANJUT KE FORMULAR</a>-->
+                <a href="registration_form.php" class="btn btn-primary btn-xl page-scroll">LANJUT KE FORMULAR</a>
             </div>
         </div>
     </div>
